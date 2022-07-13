@@ -1,0 +1,31 @@
+{% extends "apartment/baseApartments.html.twig" %}
+
+{% block Container %}
+
+	<div>
+		<h2 class="my-5 text-center">
+			Listado de Viviendas
+		</h2>
+	</div>
+
+	<div class="mx-auto d-flex justify-content-around flex-wrap">
+		{% for apartment in apartments %}
+			<div class="card " style="width: 18rem;">
+				<img src={{apartment.image}} class="card-img-top" alt="...">
+				<div class="card-body">
+					<h5 class="card-title">{{apartment.name}}</h5>
+					<p class="card-text">{{apartment.address}}</p>
+				</div>
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item">{{apartment.description}}</li>
+					<li class="list-group-item">{{apartment.price}}</li>
+				</ul>
+				<div class="card-body">
+					<a href="#" class="btn btn-primary">Card link</a>
+					<a href="#" class="btn btn-primary">Another link</a>
+				</div>
+			</div>
+
+		{% endfor %}
+	</div>
+{% endblock %}

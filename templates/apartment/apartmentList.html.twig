@@ -7,6 +7,11 @@
 			Listado de Viviendas
 		</h2>
 	</div>
+	{% for mensaje in app.flashes("ok")%}
+		<p class="text-center">
+			{{mensaje}}
+		</p>
+	{% endfor %}
 
 	<div class="mx-auto mb-5 d-flex justify-content-around flex-wrap">
 		{% for apartment in apartments %}
@@ -22,7 +27,12 @@
 				</ul>
 				<div class="card-body">
 					<a href="{{path("showApartment",{"id":apartment.id})}}" class="btn btn-primary">Mas Info</a>
-					<a href="#" class="btn btn-primary">Editar</a>
+					{% if is_granted("ROLE_USER") %}
+						<a href="{{path("editApartment",{"id":apartment.id} )}}" class=" btn btn-primary">Editar</a>
+					{% endif %}
+					{% if is_granted("ROLE_USER") %}
+						<a href="{{path("removeApartment",{"id":apartment.id} )}}" class=" btn btn-danger">Eliminar</a>
+					{% endif %}
 				</div>
 			</div>
 

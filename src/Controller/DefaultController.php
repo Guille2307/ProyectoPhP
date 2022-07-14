@@ -3,10 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Apartment;
+use App\Form\ApartmentType;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+
 
 class DefaultController extends AbstractController
 {
@@ -62,5 +66,50 @@ class DefaultController extends AbstractController
         $doctrine->persist($apartment3);
         $doctrine->flush();
         return new Response("Vivienda insertada correctamente");
+    }
+    #[Route("/new/apartment", name: "newApartment")]
+    public function newApartment(Request $request, EntityManagerInterface $doctrine)
+    {
+        $form = $this->createForm(ApartmentType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $apartment = $form->getData();
+            $doctrine->persist($apartment);
+            $doctrine->flush();
+            $this->addFlash("ok", "Vivienda insertada correctamente");
+            return $this->redirectToRoute("getApartments");
+        }
+        return $this->renderForm('apartment/newApartment.html.twig', ["apartmentForm" => $form]);
+    }
+
+    #[Route("/edit/aparment/{id}", name: "editApartment")]
+    #[IsGranted("ROLE_ADMIN")]
+    public function editApartment(Request $request, EntityManagerInterface $doctrine, $id)
+    {
+        $repository = $doctrine->getRepository(Apartment::class);
+        $apartment = $repository->find($id);
+        $form = $this->createForm(ApartmentType::class, $apartment);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $apartment = $form->getData();
+            $doctrine->persist($apartment);
+            $doctrine->flush();
+            $this->addFlash("ok", "Vivienda insertada correctamente");
+            return $this->redirectToRoute("getApartments");
+        }
+        return $this->renderForm('apartment/newApartment.html.twig', ["apartmentForm" => $form]);
+    }
+    #[Route("/remove/aparment/{id}", name: "removeApartment")]
+    #[IsGranted("ROLE_ADMIN")]
+    public function removeApartment($id, EntityManagerInterface $doctrine)
+    {
+        $repository = $doctrine->getRepository(Apartment::class);
+        $apartment = $repository->find($id);
+
+        $doctrine->remove($apartment);
+        $doctrine->flush();
+
+        $this->addFlash("ok", "Vivienda Eliminada correctamente");
+        return $this->redirectToRoute("getApartments");
     }
 }

@@ -26,15 +26,26 @@
 							<a class="nav-link" href="{{path("getApartments")}}">Listado de Viviendas</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">Pricing</a>
+							<a class="nav-link" href="{{path("newApartment")}}">Nueva Vivienda</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link">Disabled</a>
+							<a class="nav-link" href="{{path("newRegister")}}">Register</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{path("app_login")}}">Login</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{{path("app_logout")}}">logout</a>
 						</li>
 					</ul>
+				</div>
+				<div>
+					{% if is_granted("ROLE_USER") %}
+						<h3 class="m-3">{{ app.user.name }}</h3>
+					{% endif %}
 				</div>
 			</div>
 		</nav>
 		{% block Container %}{% endblock %}
 	</body>
-</html>
+</html></body></html>

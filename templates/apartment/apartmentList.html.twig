@@ -8,9 +8,9 @@
 		</h2>
 	</div>
 
-	<div class="mx-auto d-flex justify-content-around flex-wrap">
+	<div class="mx-auto mb-5 d-flex justify-content-around flex-wrap">
 		{% for apartment in apartments %}
-			<div class="card " style="width: 18rem;">
+			<div class="card mb-5 " style="width: 18rem;">
 				<img src={{apartment.image}} class="card-img-top" alt="...">
 				<div class="card-body">
 					<h5 class="card-title">{{apartment.name}}</h5>
@@ -21,8 +21,8 @@
 					<li class="list-group-item">{{apartment.price}}</li>
 				</ul>
 				<div class="card-body">
-					<a href="#" class="btn btn-primary">Card link</a>
-					<a href="#" class="btn btn-primary">Another link</a>
+					<a href="{{path("showApartment",{"id":apartment.id})}}" class="btn btn-primary">Mas Info</a>
+					<a href="#" class="btn btn-primary">Editar</a>
 				</div>
 			</div>
 
